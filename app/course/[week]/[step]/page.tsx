@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { courseData } from '../../../../components/courseData';
+import { courseData } from '../../../components/courseData';
 import { CheckCircle, BookOpen, HelpCircle, ArrowRight, MessageSquare } from 'lucide-react';
 
 export default function FutureLearnStep() {
@@ -11,7 +11,7 @@ export default function FutureLearnStep() {
   const currentWeekId = (params?.week as string) || 'week-1';
   const currentStepId = (params?.step as string) || 'step-1';
 
-  // Поиск текущей недели и шага
+  // Поиск текущей недели и шага в базе данных курса
   const currentWeek = courseData.find(w => w.id === currentWeekId) || courseData[0];
   const currentStep = currentWeek.steps.find(s => s.id === currentStepId) || currentWeek.steps[0];
 
@@ -32,7 +32,7 @@ export default function FutureLearnStep() {
   return (
     <div className="min-h-screen bg-[#faf8f5] text-stone-900 flex flex-col md:flex-row">
       
-      {/* ЛЕВОЕ МЕНЮ: Список недель и шагов */}
+      {/* ЛЕВОЕ МЕНЮ: Список недель и шагов по канонам FutureLearn */}
       <aside className="w-full md:w-80 bg-stone-900 text-stone-200 p-6 flex flex-col border-r border-stone-800">
         <div className="mb-8">
           <span className="text-xs uppercase tracking-widest text-amber-500 font-bold">Курс Истории России</span>
@@ -74,7 +74,7 @@ export default function FutureLearnStep() {
         </div>
       </aside>
 
-      {/* ЦЕНТРАЛЬНЫЙ БЛОК: Контент */}
+      {/* ЦЕНТРАЛЬНЫЙ БЛОК: Контент лекции или исторического источника */}
       <main className="flex-1 max-w-3xl mx-auto px-6 py-12 md:px-12 overflow-y-auto">
         
         <div className="border-b border-stone-200 pb-4 mb-8 flex justify-between items-center">
@@ -94,6 +94,7 @@ export default function FutureLearnStep() {
           <p className="whitespace-pre-line">{currentStep.content}</p>
         </article>
 
+        {/* Раздел сносок для Милова, Зайончковского, Энгельгардта */}
         {currentStep.sources && (
           <div className="mt-8 p-5 bg-stone-100 border-l-4 border-amber-700 rounded-r-xl text-xs text-stone-700 shadow-sm">
             <span className="font-bold uppercase block text-amber-900 mb-2 tracking-wide">
@@ -107,6 +108,7 @@ export default function FutureLearnStep() {
           </div>
         )}
 
+        {/* Кнопка прогресса (Mark as complete) */}
         <div className="mt-12 pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <button
             onClick={() => setIsCompleted(!isCompleted)}
@@ -125,7 +127,7 @@ export default function FutureLearnStep() {
           </button>
         </div>
 
-        {/* Обсуждение шага */}
+        {/* Семинарское обсуждение внизу шага (Визитная карточка FutureLearn) */}
         <section className="mt-16 border-t-2 border-stone-200 pt-8">
           <h3 className="text-xl font-bold text-stone-800 flex items-center gap-2 mb-6">
             <MessageSquare size={20} className="text-amber-700" />
